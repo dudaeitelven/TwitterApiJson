@@ -1,8 +1,10 @@
 package principal;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,6 +15,8 @@ import java.util.Comparator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+
 
 public class GeraIndiceSeqIndex {
 
@@ -37,8 +41,8 @@ public class GeraIndiceSeqIndex {
 		String hashtag = null;
 		String user_mentions = null;
 		String elo = null;
-		int idUser = 0;
-		int idTweet = 0;
+		long idUser = 0;
+		long idTweet = 0;
 
 		/* Escolhe o Arquivo para editar */
 		JFileChooser abrir = new JFileChooser();
@@ -64,16 +68,16 @@ public class GeraIndiceSeqIndex {
 			while ((linha = reader.readLine()) != null) {
 				// LER DADOS
 
-				id_user = linha.substring(0, 9);
-				name = linha.substring(10, 30);
-				screen_name = linha.substring(30, 50);
-				followers_count = linha.substring(50, 60);
-				friends_count = linha.substring(60, 70);
-				id_tweet = linha.substring(70, 90);
-				text = linha.substring(90, 380);
+				id_user = linha.substring(0, 19);
+				name = linha.substring(19, 39);
+				screen_name = linha.substring(39, 59);
+				followers_count = linha.substring(59, 69);
+				friends_count = linha.substring(69, 79);
+				id_tweet = linha.substring(79, 99);
+				text = linha.substring(99, 379);
 				elo = " ";
-				idUser = Integer.parseInt(linha.substring(0, 10));
-				//idTweet= Integer.parseInt(linha.substring(70, 90));
+				idUser = Long.parseLong(linha.substring(0, 19));
+				// idTweet= Long.parseLong(linha.substring(79, 99));
 				DadosTweet dadosLinha = new DadosTweet(id_user, name, screen_name, followers_count, friends_count,
 						id_tweet, text, elo, idUser, idTweet);
 				aDadosTweet.add(dadosLinha);
@@ -95,8 +99,8 @@ public class GeraIndiceSeqIndex {
 
 	public static void GeraArquivoDeIndice(ArrayList<DadosTweet> aDadosTweet) {
 
-		int contLinha =0;
-		int inicioBloco =0;
+		int contLinha = 0;
+		int inicioBloco = 0;
 		String sInicioBloco = null;
 		int i;
 		FileWriter arq = null;
@@ -111,18 +115,17 @@ public class GeraIndiceSeqIndex {
 
 		/* Tipo 10 */
 		for (i = 1; i < aDadosTweet.size(); i++) {
-			contLinha ++;
-			if(contLinha==1) {
+			contLinha++;
+			if (contLinha == 1) {
 				inicioBloco = i;
-				sInicioBloco = String.format ("%06d", inicioBloco); // 12345678901
-				
-				
+				sInicioBloco = String.format("%06d", inicioBloco); // 12345678901
+
 			}
-			if(contLinha == 3) {
-				gravarArq.printf(aDadosTweet.get(i).getId_user() + sInicioBloco+"%n");
+			if (contLinha == 3) {
+				gravarArq.printf(aDadosTweet.get(i).getId_user() + sInicioBloco + "%n");
 				contLinha = 0;
 			}
-			
+
 		}
 
 		try {
@@ -136,9 +139,9 @@ public class GeraIndiceSeqIndex {
 
 	public static void OrdenaArquivo(ArrayList<DadosTweet> aDadosTweet) {
 		int i, j, menor;
-		
-		/*Variaveis Temporárias*/
-		
+
+		/* Variaveis Temporárias */
+
 		String tempId_user = null;
 		String tempName = null;
 		String tempScreen_name = null;
@@ -147,18 +150,15 @@ public class GeraIndiceSeqIndex {
 		String tempId_tweet = null;
 		String tempText = null;
 		String tempElo = null;
-		int 	tempIdUser = 0;
-		int 	tempIdTweet = 0;
+		long tempIdUser = 0;
+		long tempIdTweet = 0;
 
-		
-		
-		
 		for (i = 0; i < aDadosTweet.size() - 1; i++) {
 			menor = i;
 			for (j = i + 1; j < aDadosTweet.size() - 1; j++) {
 				if (aDadosTweet.get(j).getIdUser() < aDadosTweet.get(menor).getIdUser()) {
 					menor = j;
-					
+
 					tempId_user = null;
 					tempName = null;
 					tempScreen_name = null;
@@ -170,25 +170,21 @@ public class GeraIndiceSeqIndex {
 					tempIdUser = 0;
 					tempIdTweet = 0;
 
-					
-					//temp.add(aDadosTweet.get(menor));
+					// temp.add(aDadosTweet.get(menor));
 					tempId_user = aDadosTweet.get(menor).getId_user();
 					tempName = aDadosTweet.get(menor).getName();
 					tempScreen_name = aDadosTweet.get(menor).getScreen_name();
 					tempFollowers_count = aDadosTweet.get(menor).getFollowers_count();
-					tempFriends_count =aDadosTweet.get(menor).getFriends_count();
+					tempFriends_count = aDadosTweet.get(menor).getFriends_count();
 					tempId_tweet = aDadosTweet.get(menor).getId_tweet();
 					tempText = aDadosTweet.get(menor).getText();
-					
+
 					tempElo = aDadosTweet.get(menor).getElo();
 					tempIdUser = aDadosTweet.get(menor).getIdUser();
 					tempIdTweet = aDadosTweet.get(menor).getIdTweet();
 
-					
-					
-					
-					//Altera valor do menor
-					//vet[menor] = vet[i];
+					// Altera valor do menor
+					// vet[menor] = vet[i];
 					aDadosTweet.get(menor).setId_user(aDadosTweet.get(i).getId_user());
 					aDadosTweet.get(menor).setName(aDadosTweet.get(i).getName());
 					aDadosTweet.get(menor).setScreen_name(aDadosTweet.get(i).getScreen_name());
@@ -199,31 +195,93 @@ public class GeraIndiceSeqIndex {
 					aDadosTweet.get(menor).setElo(aDadosTweet.get(i).getElo());
 					aDadosTweet.get(menor).setIdUser(aDadosTweet.get(i).getIdUser());
 					aDadosTweet.get(menor).setIdTweet(aDadosTweet.get(i).getIdTweet());
-					
-									
-					//vet[i] = temp;
+
+					// vet[i] = temp;
 					aDadosTweet.get(i).setId_user(tempId_user);
 					aDadosTweet.get(i).setName(tempName);
 					aDadosTweet.get(i).setScreen_name(tempScreen_name);
 					aDadosTweet.get(i).setFollowers_count(tempFollowers_count);
 					aDadosTweet.get(i).setFriends_count(tempFriends_count);
 					aDadosTweet.get(i).setId_tweet(tempId_tweet);
-					aDadosTweet.get(i).setText(tempText);				
-					aDadosTweet.get(i).setElo(tempElo);					
+					aDadosTweet.get(i).setText(tempText);
+					aDadosTweet.get(i).setElo(tempElo);
 					aDadosTweet.get(i).setIdUser(tempIdUser);
 					aDadosTweet.get(i).setIdTweet(tempIdTweet);
-								
+
 				}
-			}			
-				
+			}
+
 		}
 
 	}
 
-	
-	
-	
-	
-	
+	/*
+	 * public int pesquisaBin(int x){ int esq=0; int dir=arranjo.length - 1; int
+	 * meio; do{ meio=esq + (dir - esq)/2; if(x<arranjo[meio]) dir=meio-1; else
+	 * if(x>arranjo[meio]) esq=meio+1; else return meio; }while(esq<=dir); return
+	 * -1;
+	 * 
+	 * }
+	 * 
+	 */
+
+	public DadosTweet pesquisaBin(ArrayList<DadosTweet> aDadosTweet, int x) {
+		int esq = 0;
+		int dir = aDadosTweet.size() - 1;
+		int meio;
+		
+		String sValor = null;
+		String sPosicao = null;
+		long valor = 0;
+		long posicao = 0;
+		
+		
+
+		/* Le o Arquivo e faz a inclusão nos objetos */
+		BufferedReader reader = null;
+		try {
+
+			reader = new BufferedReader(new FileReader("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String linha = null;
+
+		try {
+			while ((linha = reader.readLine()) != null) {
+				
+				sValor = linha.substring(0, 19);
+				sPosicao = linha.substring(19, 26);
+				valor = Long.parseLong(linha.substring(0, 19));
+				posicao = Long.parseLong(linha.substring(19, 26));
+				Indice dadosIndice = new Indice(sValor, sPosicao,valor,posicao);
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		do {
+			meio = esq + (dir - esq) / 2;
+			if (x < (aDadosTweet.get(meio).getIdTweet()))
+				dir = meio - 1;
+			else if (x > (aDadosTweet.get(meio).getIdTweet()))
+				esq = meio + 1;
+			else
+				return aDadosTweet.get(meio);
+		} while (esq <= dir);
+		System.out.println("Não ENCONTRADO\n");
+
+		return null;
+	}
 
 }
