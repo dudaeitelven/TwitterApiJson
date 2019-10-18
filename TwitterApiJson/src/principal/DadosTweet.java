@@ -9,12 +9,16 @@ public class DadosTweet {
 	private String friends_count;
 	private String id_tweet;
 	private String text;
-	private String hastag;
+	private String hashtag;
 	private String user_mentions;
+	private String elo;
+	private int idTweet;
+	private int idUser;
+	
 	
 	
 	public DadosTweet(String id_user, String name, String screen_name, String followers_count, String friends_count,
-			String id_tweet, String text, String hastag, String user_mentions) {
+			String id_tweet, String text, String hashtag, String user_mentions,String elo, int idUser, int idTweet) {
 		super();
 		this.id_user = id_user;
 		this.name = name;
@@ -23,8 +27,12 @@ public class DadosTweet {
 		this.friends_count = friends_count;
 		this.id_tweet = id_tweet;
 		this.text = text;
-		this.hastag = hastag;
+		this.hashtag = hashtag;
 		this.user_mentions = user_mentions;
+		this.elo = elo;
+		this.idUser = idUser;
+		this.idTweet = idTweet;
+	
 	}
 
 
@@ -99,12 +107,12 @@ public class DadosTweet {
 
 
 	public String getHastag() {
-		return hastag;
+		return hashtag;
 	}
 
 
-	public void setHastag(String hastag) {
-		this.hastag = hastag;
+	public void setHashtag(String hashtag) {
+		this.hashtag = hashtag;
 	}
 
 
@@ -117,5 +125,36 @@ public class DadosTweet {
 		this.user_mentions = user_mentions;
 	}
 	
+	public String getElo() {
+		return elo;
+	}
 
+
+	public void setElo(String elo) {
+		this.elo = elo;
+	}
+
+
+	public int getIdTweet() {
+		return idTweet;
+	}
+
+
+	public void setIdTweet(int idTweet) {
+		this.idTweet = idTweet;
+	}
+
+
+	public int getIdUser() {
+		return idUser;
+	}
+
+
+	public void setIdUser(int idUser) {
+		this.idUser = idUser;
+	}
+	
+	
+	
+	
 }
