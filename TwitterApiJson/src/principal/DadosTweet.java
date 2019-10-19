@@ -4,7 +4,6 @@ public class DadosTweet {
 	
 	private String id_user;
 	private String name;
-	private String screen_name;
 	private String followers_count;
 	private String friends_count;
 	private String id_tweet;
@@ -15,12 +14,11 @@ public class DadosTweet {
 	
 	
 	
-	public DadosTweet(String id_user, String name, String screen_name, String followers_count, String friends_count,
+	public DadosTweet(String id_user, String name, String followers_count, String friends_count,
 			String id_tweet, String text,String elo, long idUser, long idTweet) {
 		super();
 		this.id_user = id_user;
 		this.name = name;
-		this.screen_name = screen_name;
 		this.followers_count = followers_count;
 		this.friends_count = friends_count;
 		this.id_tweet = id_tweet;
@@ -50,17 +48,6 @@ public class DadosTweet {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-	public String getScreen_name() {
-		return screen_name;
-	}
-
-
-	public void setScreen_name(String screen_name) {
-		this.screen_name = screen_name;
-	}
-
 
 	public String getFollowers_count() {
 		return followers_count;

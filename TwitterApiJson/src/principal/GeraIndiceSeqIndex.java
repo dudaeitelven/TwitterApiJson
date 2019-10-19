@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 
 
+
 public class GeraIndiceSeqIndex {
 
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
@@ -26,6 +27,7 @@ public class GeraIndiceSeqIndex {
 
 		leArquivo(aDadosTweet);
 		OrdenaArquivo(aDadosTweet);
+		ImprimeADadosTweet(aDadosTweet);
 		GeraArquivoDeIndice(aDadosTweet);
 	}
 
@@ -33,7 +35,6 @@ public class GeraIndiceSeqIndex {
 
 		String id_user = null;
 		String name = null;
-		String screen_name = null;
 		String followers_count = null;
 		String friends_count = null;
 		String id_tweet = null;
@@ -68,17 +69,16 @@ public class GeraIndiceSeqIndex {
 			while ((linha = reader.readLine()) != null) {
 				// LER DADOS
 
-				id_user = linha.substring(0, 19);
-				name = linha.substring(19, 39);
-				screen_name = linha.substring(39, 59);
-				followers_count = linha.substring(59, 69);
-				friends_count = linha.substring(69, 79);
-				id_tweet = linha.substring(79, 99);
-				text = linha.substring(99, 379);
+				id_user = linha.substring(0, 21).trim();
+				name = linha.substring(21, 62).trim();
+				followers_count = linha.substring(62, 73).trim();
+				friends_count = linha.substring(73, 83).trim();
+				id_tweet = linha.substring(83, 104).trim();
+				text = linha.substring(104, 385).trim();
 				elo = " ";
-				idUser = Long.parseLong(linha.substring(0, 19));
-				// idTweet= Long.parseLong(linha.substring(79, 99));
-				DadosTweet dadosLinha = new DadosTweet(id_user, name, screen_name, followers_count, friends_count,
+				idUser = Long.parseLong(linha.substring(0, 21).trim());
+				idTweet= Long.parseLong(linha.substring(83, 104).trim());
+				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count,
 						id_tweet, text, elo, idUser, idTweet);
 				aDadosTweet.add(dadosLinha);
 
@@ -96,6 +96,27 @@ public class GeraIndiceSeqIndex {
 		}
 
 	}
+	
+	
+	public void ImprimeADadosTweet(ArrayList<DadosTweet> aDadosTweet) {
+		
+		/* Tipo 21 */
+		for (DadosTweet dados : aDadosTweet) {
+			System.out.println("--Dados Tweet--");
+			System.out.println("id_user:" + dados.getId_user());
+			System.out.println("name:" + dados.getName());
+			System.out.println("followers_count:" + dados.getFollowers_count());
+			System.out.println("friends_count:" + dados.getFriends_count());
+			System.out.println("idTweet:" + dados.getIdTweet());
+			System.out.println("text:" + dados.getText());
+			System.out.println("iduser long:" + dados.getIdUser());
+			System.out.println("idTweet:" + dados.getIdTweet());
+		}
+		
+		
+	}
+	
+	
 
 	public static void GeraArquivoDeIndice(ArrayList<DadosTweet> aDadosTweet) {
 
@@ -144,7 +165,6 @@ public class GeraIndiceSeqIndex {
 
 		String tempId_user = null;
 		String tempName = null;
-		String tempScreen_name = null;
 		String tempFollowers_count = null;
 		String tempFriends_count = null;
 		String tempId_tweet = null;
@@ -161,7 +181,6 @@ public class GeraIndiceSeqIndex {
 
 					tempId_user = null;
 					tempName = null;
-					tempScreen_name = null;
 					tempFollowers_count = null;
 					tempFriends_count = null;
 					tempId_tweet = null;
@@ -173,12 +192,10 @@ public class GeraIndiceSeqIndex {
 					// temp.add(aDadosTweet.get(menor));
 					tempId_user = aDadosTweet.get(menor).getId_user();
 					tempName = aDadosTweet.get(menor).getName();
-					tempScreen_name = aDadosTweet.get(menor).getScreen_name();
 					tempFollowers_count = aDadosTweet.get(menor).getFollowers_count();
 					tempFriends_count = aDadosTweet.get(menor).getFriends_count();
 					tempId_tweet = aDadosTweet.get(menor).getId_tweet();
 					tempText = aDadosTweet.get(menor).getText();
-
 					tempElo = aDadosTweet.get(menor).getElo();
 					tempIdUser = aDadosTweet.get(menor).getIdUser();
 					tempIdTweet = aDadosTweet.get(menor).getIdTweet();
@@ -187,7 +204,6 @@ public class GeraIndiceSeqIndex {
 					// vet[menor] = vet[i];
 					aDadosTweet.get(menor).setId_user(aDadosTweet.get(i).getId_user());
 					aDadosTweet.get(menor).setName(aDadosTweet.get(i).getName());
-					aDadosTweet.get(menor).setScreen_name(aDadosTweet.get(i).getScreen_name());
 					aDadosTweet.get(menor).setFollowers_count(aDadosTweet.get(i).getFollowers_count());
 					aDadosTweet.get(menor).setFriends_count(aDadosTweet.get(i).getFriends_count());
 					aDadosTweet.get(menor).setId_tweet(aDadosTweet.get(i).getId_tweet());
@@ -199,7 +215,6 @@ public class GeraIndiceSeqIndex {
 					// vet[i] = temp;
 					aDadosTweet.get(i).setId_user(tempId_user);
 					aDadosTweet.get(i).setName(tempName);
-					aDadosTweet.get(i).setScreen_name(tempScreen_name);
 					aDadosTweet.get(i).setFollowers_count(tempFollowers_count);
 					aDadosTweet.get(i).setFriends_count(tempFriends_count);
 					aDadosTweet.get(i).setId_tweet(tempId_tweet);
@@ -225,7 +240,7 @@ public class GeraIndiceSeqIndex {
 	 * 
 	 */
 
-	public Indice pesquisaBin(ArrayList<DadosTweet> aDadosTweet, int x) {
+	public DadosTweet pesquisaBin(ArrayList<DadosTweet> aDadosTweet, int x) {
 		int esq = 0;
 		int dir = aDadosTweet.size() - 1;
 		int meio;
