@@ -16,9 +16,6 @@ import java.util.Comparator;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
-
-
 public class GeraIndiceSeqIndex {
 
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
@@ -77,9 +74,9 @@ public class GeraIndiceSeqIndex {
 				text = linha.substring(104, 385).trim();
 				elo = " ";
 				idUser = Long.parseLong(linha.substring(0, 21).trim());
-				idTweet= Long.parseLong(linha.substring(83, 104).trim());
-				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count,
-						id_tweet, text, elo, idUser, idTweet);
+				idTweet = Long.parseLong(linha.substring(83, 104).trim());
+				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count, id_tweet, text,
+						elo, idUser, idTweet);
 				aDadosTweet.add(dadosLinha);
 
 			}
@@ -96,10 +93,9 @@ public class GeraIndiceSeqIndex {
 		}
 
 	}
-	
-	
+
 	public void ImprimeADadosTweet(ArrayList<DadosTweet> aDadosTweet) {
-		
+
 		/* Tipo 21 */
 		for (DadosTweet dados : aDadosTweet) {
 			System.out.println("--Dados Tweet--");
@@ -112,11 +108,8 @@ public class GeraIndiceSeqIndex {
 			System.out.println("iduser long:" + dados.getIdUser());
 			System.out.println("idTweet:" + dados.getIdTweet());
 		}
-		
-		
+
 	}
-	
-	
 
 	public static void GeraArquivoDeIndice(ArrayList<DadosTweet> aDadosTweet) {
 
@@ -240,17 +233,17 @@ public class GeraIndiceSeqIndex {
 	 * 
 	 */
 
-	public DadosTweet pesquisaBin(ArrayList<DadosTweet> aDadosTweet, int x) {
-		int esq = 0;
-		int dir = aDadosTweet.size() - 1;
-		int meio;
-		
+	public int pesquisaBin(ArrayList<DadosTweet> aDadosTweet, long procura) {
+
 		String sValor = null;
 		String sPosicao = null;
 		long valor = 0;
 		long posicao = 0;
-		
-		
+		int inicio = 0;
+		int fim = 0;
+		int meio;
+
+		ArrayList<Indice> indice = null;
 
 		/* Le o Arquivo e faz a inclusão nos objetos */
 		BufferedReader reader = null;
@@ -266,13 +259,13 @@ public class GeraIndiceSeqIndex {
 
 		try {
 			while ((linha = reader.readLine()) != null) {
-				
+
 				sValor = linha.substring(0, 19);
 				sPosicao = linha.substring(19, 26);
 				valor = Long.parseLong(linha.substring(0, 19));
 				posicao = Long.parseLong(linha.substring(19, 26));
-				Indice dadosIndice = new Indice(sValor, sPosicao,valor,posicao);
-				
+				Indice dadosIndice = new Indice(sValor, sPosicao, valor, posicao);
+				indice.add(dadosIndice);
 			}
 
 		} catch (IOException e) {
@@ -286,18 +279,68 @@ public class GeraIndiceSeqIndex {
 			e.printStackTrace();
 		}
 
-		do {
-			meio = esq + (dir - esq) / 2;
-			if (x < (aDadosTweet.get(meio).getIdTweet()))
-				dir = meio - 1;
-			else if (x > (aDadosTweet.get(meio).getIdTweet()))
-				esq = meio + 1;
-			else
-				return aDadosTweet.get(meio);
-		} while (esq <= dir);
-		System.out.println("Não ENCONTRADO\n");
+		fim = indice.size() - 1;
 
-		return null;
+		// if ((procura > (indice.get(meio-1).getValor())) && (procura <=
+		// (indice.get(meio).getValor())))
+		int valorAnterior;
+		int valor;
+
+		while (inicio <= fim) {
+			meio = (inicio + fim) / 2;
+			valorAnterior = (int) indice.get(meio - 1).getValor();
+			valor = (int) indice.get(meio).getValor();
+
+			if (procura > valorAnterior && procura <= valor)
+				return meio;
+
+			else {
+				if (procura < indice.get(meio).getValor())
+					fim = meio - 1;
+				else if (procura > indice.get(meio).getValor())
+					inicio = meio + 1;
+			}
+		}
+
+	}
+
+	public long ProcuraNoArquivo() {
+
+		long idTweet = 0;
+
+		/* Le o Arquivo e faz a inclusão nos objetos */
+		BufferedReader reader = null;
+		try {
+
+			reader = new BufferedReader(
+					new FileReader("C:\\Users\\Alex\\Desktop\\Organização de Arquivos\\teste2.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String linha = null;
+
+		try {
+			while ((linha = reader.readLine()) != null) {
+
+				idTweet = Long.parseLong(linha.substring(83, 104).trim());
+
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return 0;
+
 	}
 
 }
