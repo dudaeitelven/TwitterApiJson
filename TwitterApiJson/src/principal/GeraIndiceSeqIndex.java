@@ -225,7 +225,7 @@ public class GeraIndiceSeqIndex {
 	 * 
 	 */
 
-	public DadosTweet pesquisaBin(ArrayList<DadosTweet> aDadosTweet, int x) {
+	public Indice pesquisaBin(ArrayList<DadosTweet> aDadosTweet, int x) {
 		int esq = 0;
 		int dir = aDadosTweet.size() - 1;
 		int meio;
@@ -257,6 +257,7 @@ public class GeraIndiceSeqIndex {
 				valor = Long.parseLong(linha.substring(0, 19));
 				posicao = Long.parseLong(linha.substring(19, 26));
 				Indice dadosIndice = new Indice(sValor, sPosicao,valor,posicao);
+				
 			}
 
 		} catch (IOException e) {
