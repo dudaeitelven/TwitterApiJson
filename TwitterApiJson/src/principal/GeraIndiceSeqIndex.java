@@ -1,7 +1,6 @@
 package principal;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,8 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,11 +18,12 @@ public class GeraIndiceSeqIndex {
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
 
 	public GeraIndiceSeqIndex() {
-
 		leArquivo(aDadosTweet);
 		OrdenaArquivo(aDadosTweet);
 		ImprimeADadosTweet(aDadosTweet);
 		GeraArquivoDeIndice(aDadosTweet);
+		ProcuraNoArquivo();
+		
 	}
 
 	public static void leArquivo(ArrayList<DadosTweet> aDadosTweet) {
@@ -234,14 +232,15 @@ public class GeraIndiceSeqIndex {
 	 */
 
 	public int pesquisaBin(ArrayList<DadosTweet> aDadosTweet, long procura) {
-
 		String sValor = null;
 		String sPosicao = null;
 		long valor = 0;
 		long posicao = 0;
 		int inicio = 0;
 		int fim = 0;
-		int meio;
+		int meio = 0;
+		int valorIndiceAnterior;
+		int valorIndice;
 
 		ArrayList<Indice> indice = null;
 
@@ -283,17 +282,15 @@ public class GeraIndiceSeqIndex {
 
 		// if ((procura > (indice.get(meio-1).getValor())) && (procura <=
 		// (indice.get(meio).getValor())))
-		int valorAnterior;
-		int valor;
 
 		while (inicio <= fim) {
 			meio = (inicio + fim) / 2;
-			valorAnterior = (int) indice.get(meio - 1).getValor();
-			valor = (int) indice.get(meio).getValor();
+			valorIndiceAnterior = (int) indice.get(meio - 1).getValor();
+			valorIndice = (int) indice.get(meio).getValor();
 
-			if (procura > valorAnterior && procura <= valor)
+			if (procura > valorIndiceAnterior && procura <= valorIndice) {
 				return meio;
-
+			}
 			else {
 				if (procura < indice.get(meio).getValor())
 					fim = meio - 1;
@@ -301,7 +298,8 @@ public class GeraIndiceSeqIndex {
 					inicio = meio + 1;
 			}
 		}
-
+		
+		return 0;
 	}
 
 	public long ProcuraNoArquivo() {
@@ -344,3 +342,4 @@ public class GeraIndiceSeqIndex {
 	}
 
 }
+
