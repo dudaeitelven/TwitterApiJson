@@ -29,25 +29,28 @@ public class GeraIndiceSeqIndex {
 		OrdenaArquivoIdUser(aDadosTweet);
 		GeraArquivoDeDados(aDadosTweet);
 
+		
+		
+		aDadosTweet = new ArrayList<DadosTweet>();
 		PopulaArrayDados(aDadosTweet);
 		OrdenaArquivoIdUser(aDadosTweet);
 
 		ImprimeADadosTweet(aDadosTweet);
 		GeraArquivoDeIndice(aDadosTweet);
 
-		resultadoPesquisa = pesquisaBin("00000000000507310033");
+		//resultadoPesquisa = pesquisaBin("00000000000507310033");
 		System.out.println("Resultado da PEsquisa:" + resultadoPesquisa);
 		System.out.println("--");
-		resultadoPesquisa = pesquisaBin("01134628853119406081");
+		//resultadoPesquisa = pesquisaBin("01134628853119406081");
 		System.out.println("Resultado da PEsquisa:" + resultadoPesquisa);
 		System.out.println("--");
 		 
-			try {
-				ProcuraNoArquivo(10,"847164610818007022");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			try {
+//				ProcuraNoArquivo(10,"847164610818007022");
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 	}
 
@@ -219,19 +222,21 @@ public class GeraIndiceSeqIndex {
 		PrintWriter gravarArq = new PrintWriter(arq);
 
 		/* Tipo 10 */
-		for (i = 1; i < aDadosTweet.size(); i++) {
+		for (i = 1; i < aDadosTweet.size() - 1; i++) {
+			
 			contLinha++;
 			if (contLinha == 1) {
 				inicioBloco = i;
 				sInicioBloco = String.format("%06d", inicioBloco); // 12345678901
-
+				
 			}
 			if (contLinha == 3) {
-
 				sId_Usuario = String.format("%020d", aDadosTweet.get(i).getIdUser()); // 12345678901
 				gravarArq.printf(sId_Usuario + sInicioBloco + "%n");
 				contLinha = 0;
+				
 			}
+			
 
 		}
 
