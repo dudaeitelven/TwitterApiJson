@@ -1,6 +1,7 @@
 package principal;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,7 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -35,6 +38,9 @@ public class GeraIndiceSeqIndex {
 		
 		
 		
+		
+		
+		
 		resultadoPesquisa = pesquisaBin("00000000000507310033");
 		System.out.println("Resultado da PEsquisa:"+ resultadoPesquisa);
 		System.out.println("--");
@@ -43,6 +49,9 @@ public class GeraIndiceSeqIndex {
 		System.out.println("--");
 	
 	
+		
+		
+		ProcuraNoArquivo(1," ");
 		
 		
 	}
@@ -350,74 +359,10 @@ public class GeraIndiceSeqIndex {
             }
         }
 			
-		
-		
-//		for (i = 0; i < aDadosTweet.size() - 1; i++) {
-//			menor = i;
-//			for (j = i + 1; j < aDadosTweet.size() - 1; j++) {
-//				if (aDadosTweet.get(j).getIdUser() < aDadosTweet.get(menor).getIdUser()) {
-//					menor = j;
-//
-//					tempId_user = null;
-//					tempName = null;
-//					tempFollowers_count = null;
-//					tempFriends_count = null;
-//					tempId_tweet = null;
-//					tempText = null;
-//					tempElo = null;
-//					tempIdUser = 0;
-//					tempIdTweet = 0;
-//
-//					// temp.add(aDadosTweet.get(menor));
-//					tempId_user = aDadosTweet.get(menor).getId_user();
-//					tempName = aDadosTweet.get(menor).getName();
-//					tempFollowers_count = aDadosTweet.get(menor).getFollowers_count();
-//					tempFriends_count = aDadosTweet.get(menor).getFriends_count();
-//					tempId_tweet = aDadosTweet.get(menor).getId_tweet();
-//					tempText = aDadosTweet.get(menor).getText();
-//					tempElo = aDadosTweet.get(menor).getElo();
-//					tempIdUser = aDadosTweet.get(menor).getIdUser();
-//					tempIdTweet = aDadosTweet.get(menor).getIdTweet();
-//
-//					// Altera valor do menor
-//					// vet[menor] = vet[i];
-//					aDadosTweet.get(menor).setId_user(aDadosTweet.get(i).getId_user());
-//					aDadosTweet.get(menor).setName(aDadosTweet.get(i).getName());
-//					aDadosTweet.get(menor).setFollowers_count(aDadosTweet.get(i).getFollowers_count());
-//					aDadosTweet.get(menor).setFriends_count(aDadosTweet.get(i).getFriends_count());
-//					aDadosTweet.get(menor).setId_tweet(aDadosTweet.get(i).getId_tweet());
-//					aDadosTweet.get(menor).setText(aDadosTweet.get(i).getText());
-//					aDadosTweet.get(menor).setElo(aDadosTweet.get(i).getElo());
-//					aDadosTweet.get(menor).setIdUser(aDadosTweet.get(i).getIdUser());
-//					aDadosTweet.get(menor).setIdTweet(aDadosTweet.get(i).getIdTweet());
-//
-//					// vet[i] = temp;
-//					aDadosTweet.get(i).setId_user(tempId_user);
-//					aDadosTweet.get(i).setName(tempName);
-//					aDadosTweet.get(i).setFollowers_count(tempFollowers_count);
-//					aDadosTweet.get(i).setFriends_count(tempFriends_count);
-//					aDadosTweet.get(i).setId_tweet(tempId_tweet);
-//					aDadosTweet.get(i).setText(tempText);
-//					aDadosTweet.get(i).setElo(tempElo);
-//					aDadosTweet.get(i).setIdUser(tempIdUser);
-//					aDadosTweet.get(i).setIdTweet(tempIdTweet);
-//
-//				}
-//			}
-//
-//		}
 
 	}
 
-	/*
-	 * public int pesquisaBin(int x){ int esq=0; int dir=arranjo.length - 1; int
-	 * meio; do{ meio=esq + (dir - esq)/2; if(x<arranjo[meio]) dir=meio-1; else
-	 * if(x>arranjo[meio]) esq=meio+1; else return meio; }while(esq<=dir); return
-	 * -1;
-	 * 
-	 * }
-	 * 
-	 */
+
 
 	public long pesquisaBin(String ValorProcurado) {
 		String sValor = null;
@@ -490,44 +435,79 @@ public class GeraIndiceSeqIndex {
 		return 0;
 	}
 
-	public long ProcuraNoArquivo() {
+	public void ProcuraNoArquivo(long indiceArquivo,String valorProcurado) {
 
-		long idTweet = 0;
-
-		/* Le o Arquivo e faz a inclusão nos objetos */
-		BufferedReader reader = null;
+		
+		long i=0;
+		long indice = 0;
+		
+		RandomAccessFile dadosArquivo = null;
+		FileInputStream  lerArq = new FileInputStream (dadosArquivo);
+		
+		
 		try {
-
-			reader = new BufferedReader(
-					new FileReader(arquivodeDados));
+			dadosArquivo = new RandomAccessFile("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt", "r");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String linha = null;
-
+		
+		indice = indiceArquivo;
+		
 		try {
-			while ((linha = reader.readLine()) != null) {
-
-				idTweet = Long.parseLong(linha.substring(83, 104).trim());
-
-			}
-
+			dadosArquivo.seek(indice);// posiciona o ponteiro no retorno do Indice
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		
+		
+		try {
+			
+			System.out.println(readString(200,dadosArquivo));
+		
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		
+		try {
+			dadosArquivo.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			reader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return 0;
-
+	
+		
+		
 	}
+
+	
+	private String readString(int tamanho, RandomAccessFile file) throws IOException
+	{
+		// Palavra a ser lida
+		char palavra[] = new char[tamanho];
+		
+		// Caracter lido do arquivo
+		char temp;
+		
+		// Ler 30 caracteres
+		for(int count = 0; count < palavra.length; count++)
+		{
+			// Ler um caracter do arquivo
+			temp = file.readChar();
+			
+			// Concatenar com os caracteres lidos anteriormente
+			palavra[count] = temp;
+		}
+
+		// Retornar a palavra lida
+		return new String(palavra).replace('\0', ' ');
+	}
+	
+		
 
 }
 
