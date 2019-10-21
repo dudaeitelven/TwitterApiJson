@@ -21,15 +21,14 @@ public class GeraIndiceSeqIndex {
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
 	long resultadoPesquisa = 0;
 	// Arquivo de dados para leitura
-	public static String arquivodeDados = "C:\\Users\\Alex\\Desktop\\Organização de Arquivos\\teste2.txt";
+	//public static String arquivodeDados = "C:\\Users\\Alex\\Desktop\\Organização de Arquivos\\teste2.txt";
+	public static String arquivodeDados = "C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\twitter2.txt";
 
 	public GeraIndiceSeqIndex() {
 
 		GeraArquivodeDadosOrdenado(aDadosTweet);
 		OrdenaArquivoIdUser(aDadosTweet);
 		GeraArquivoDeDados(aDadosTweet);
-
-		
 		
 		aDadosTweet = new ArrayList<DadosTweet>();
 		PopulaArrayDados(aDadosTweet);
@@ -38,19 +37,15 @@ public class GeraIndiceSeqIndex {
 		ImprimeADadosTweet(aDadosTweet);
 		GeraArquivoDeIndice(aDadosTweet);
 
-		//resultadoPesquisa = pesquisaBin("00000000000507310033");
+		resultadoPesquisa = pesquisaBin("1012465336900300800");
 		System.out.println("Resultado da PEsquisa:" + resultadoPesquisa);
 		System.out.println("--");
-		//resultadoPesquisa = pesquisaBin("01134628853119406081");
-		System.out.println("Resultado da PEsquisa:" + resultadoPesquisa);
-		System.out.println("--");
-		 
-//			try {
-//				ProcuraNoArquivo(10,"847164610818007022");
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+
+		try {
+			ProcuraNoArquivo(resultadoPesquisa,"1012465336900300800");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -213,8 +208,8 @@ public class GeraIndiceSeqIndex {
 		String sId_Usuario = null;
 		FileWriter arq = null;
 		try {
-
-			arq = new FileWriter("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt");
+			//arq = new FileWriter("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt");
+			arq = new FileWriter("C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\INDICE.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -255,7 +250,8 @@ public class GeraIndiceSeqIndex {
 		FileWriter arq = null;
 		try {
 
-			arq = new FileWriter("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt");
+			//arq = new FileWriter("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt");
+			arq = new FileWriter("C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\ArquivoDeDados.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -363,7 +359,8 @@ public class GeraIndiceSeqIndex {
 		BufferedReader reader = null;
 		try {
 
-			reader = new BufferedReader(new FileReader("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt"));
+			//reader = new BufferedReader(new FileReader("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt"));
+			reader = new BufferedReader(new FileReader("C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\INDICE.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -399,6 +396,9 @@ public class GeraIndiceSeqIndex {
 
 		while (inicio <= fim) {
 			meio = (inicio + fim) / 2;
+			
+			if (meio < 1) return 1;
+			
 			valorIndiceAnterior = indice.get(meio - 1).getValor();
 			valorIndice = indice.get(meio).getValor();
 
@@ -414,12 +414,6 @@ public class GeraIndiceSeqIndex {
 
 		return 0;
 	}
-	
-	
-
-	
-	
-	
 
 	public void ProcuraNoArquivo(long indiceArquivo, String valorProcurado) throws IOException {
 
@@ -428,27 +422,24 @@ public class GeraIndiceSeqIndex {
 		String linha;
 
 		try {
+//			RandomAccessFile dadosArquivo = new RandomAccessFile(
+//					"D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt", "r");
 			RandomAccessFile dadosArquivo = new RandomAccessFile(
-					"D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt", "r");
+					"C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\ArquivoDeDados.txt", "r");
 
 			System.out.printf("-------------------------------------------------------\n");
-			long n = (dadosArquivo.length()/384); // calcula o número de registros do arquivo (sizefile)
-			//long n = 22;
-
-			indice = indiceArquivo * 385;
 			
+			indice = (indiceArquivo-1) * 385;
 			
-			for (i = indice; i <= (indice + 1152); i=i+385) {
-				//115200
-				//for (i = 0; i <= 114816‬; i=i+384) {
-				//linha = lerString(dadosArquivo, 20);
+			for (i = indice; i <= (indice + 1155); i=i+385) {
 				dadosArquivo.seek(i);
-					if(dadosArquivo.readLine().contains(valorProcurado))
-						System.out.println(dadosArquivo.readLine());
-
+					linha = (String) dadosArquivo.readLine();
+					if(linha.contains(valorProcurado))
+						System.out.println(linha);
 			}
 			System.out.printf("-------------------------------------------------------\n");
 			dadosArquivo.close();
+			
 		} catch (FileNotFoundException e) {
 			System.err.printf("Arquivo não encontrado: %s.\n", e.getMessage());
 		}
