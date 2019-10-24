@@ -16,6 +16,8 @@ import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 public class GeraIndiceSeqIndex {
 
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
@@ -34,15 +36,20 @@ public class GeraIndiceSeqIndex {
 		PopulaArrayDados(aDadosTweet);
 		OrdenaArquivoIdUser(aDadosTweet);
 
-		ImprimeADadosTweet(aDadosTweet);
+		//ImprimeADadosTweet(aDadosTweet);
 		GeraArquivoDeIndice(aDadosTweet);
 
-		resultadoPesquisa = pesquisaBin("1012465336900300800");
-		System.out.println("Resultado da PEsquisa:" + resultadoPesquisa);
+		try {
+			resultadoPesquisa = pesquisaBin("708924974");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		System.out.println("Resultado da pesquisa:" + resultadoPesquisa);
 		System.out.println("--");
 
 		try {
-			ProcuraNoArquivo(resultadoPesquisa,"1012465336900300800");
+			ProcuraNoArquivo(resultadoPesquisa,"708924974");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +57,6 @@ public class GeraIndiceSeqIndex {
 	}
 
 	public static void PopulaArrayDados(ArrayList<DadosTweet> aDadosTweet) {
-
 		String id_user = null;
 		String name = null;
 		String followers_count = null;
@@ -215,6 +221,8 @@ public class GeraIndiceSeqIndex {
 			e1.printStackTrace();
 		}
 		PrintWriter gravarArq = new PrintWriter(arq);
+		
+		//gravarArq.printf("11111111111111111111111111\n");
 
 		/* Tipo 10 */
 		for (i = 1; i < aDadosTweet.size() - 1; i++) {
@@ -227,7 +235,7 @@ public class GeraIndiceSeqIndex {
 			}
 			if (contLinha == 3) {
 				sId_Usuario = String.format("%020d", aDadosTweet.get(i).getIdUser()); // 12345678901
-				gravarArq.printf(sId_Usuario + sInicioBloco + "%n");
+				gravarArq.printf(sId_Usuario + sInicioBloco + "\n");
 				contLinha = 0;
 				
 			}
@@ -341,77 +349,70 @@ public class GeraIndiceSeqIndex {
 
 	}
 
-	public long pesquisaBin(String ValorProcurado) {
-		String sValor = null;
-		String sPosicao = null;
-		long valor = 0;
-		long posicao = 0;
+	public long pesquisaBin(String ValorProcurado) throws IOException {	
+		long indice = 0;
 		int inicio = 0;
 		int fim = 0;
 		int meio = 0;
 		long valorIndiceAnterior;
 		long valorIndice;
 		long procura = 0;
-
-		ArrayList<Indice> indice = new ArrayList<Indice>();
-
-		/* Le o Arquivo e faz a inclusão nos objetos */
-		BufferedReader reader = null;
-		try {
-
-			//reader = new BufferedReader(new FileReader("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt"));
-			reader = new BufferedReader(new FileReader("C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\INDICE.txt"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
+		String linhaAnt = null;
 		String linha = null;
-
+		
+		byte[] bVetor = new byte[28];
+		byte[] bVetorAnt = new byte[28];
+		
+	
 		try {
-			while ((linha = reader.readLine()) != null) {
-
-				sValor = linha.substring(0, 20);
-				sPosicao = linha.substring(20, 26);
-				valor = Long.parseLong(linha.substring(0, 20));
-				posicao = Long.parseLong(linha.substring(20, 26));
-				Indice dadosIndice = new Indice(sValor, sPosicao, valor, posicao);
-				indice.add(dadosIndice);
-			}
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			reader.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		fim = indice.size() - 1;
-
-		procura = Long.parseLong(ValorProcurado);
-
-		while (inicio <= fim) {
-			meio = (inicio + fim) / 2;
+//			RandomAccessFile dadosArquivo = new RandomAccessFile(
+//					"D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt", "r");
+			RandomAccessFile arquivoIndice = new RandomAccessFile(
+					"C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\INDICE.txt", "rw");			
 			
-			if (meio < 1) return 1;
-			
-			valorIndiceAnterior = indice.get(meio - 1).getValor();
-			valorIndice = indice.get(meio).getValor();
+			fim = (int) (arquivoIndice.length() / 26);
+			procura = Long.parseLong(ValorProcurado);
 
-			if (procura > valorIndiceAnterior && procura <= valorIndice) {
-				return indice.get(meio).getposicao();
-			} else {
-				if (procura < indice.get(meio).getValor())
-					fim = meio - 1;
-				else if (procura > indice.get(meio).getValor())
-					inicio = meio + 1;
+			while (inicio <= fim) {
+				meio = (inicio + fim) / 2;
+							
+				
+				if (meio <= 1) {
+					arquivoIndice.close();
+					return 1;
+				}
+				
+				arquivoIndice.seek((meio-2) * 27);
+				arquivoIndice.read(bVetorAnt, 0, 26);
+				//System.out.println(new String(bVetorAnt));	
+				linhaAnt = new String(bVetorAnt);
+				valorIndiceAnterior = Long.parseLong(linhaAnt.substring(0,20)); 
+				
+				arquivoIndice.seek((meio-1) * 27);
+				arquivoIndice.read(bVetor, 0, 26);
+				//System.out.println(new String(bVetor));	
+				linha = new String(bVetor);
+				valorIndice =  Long.parseLong(linha.substring(0,20));
+				indice =  Integer.parseInt(linha.substring(20,26)); 
+				
+
+				if (procura > valorIndiceAnterior && procura <= valorIndice) {
+					arquivoIndice.close();
+					return indice;
+				} else {
+					if (procura < indice)
+						fim = meio - 1;
+					else if (procura > indice)
+						inicio = meio + 1;
+				}
 			}
+			
+			arquivoIndice.close();
+		} catch (FileNotFoundException e) {
+			System.err.printf("Arquivo não encontrado: %s.\n", e.getMessage());
 		}
-
+		
 		return 0;
 	}
 
@@ -430,6 +431,8 @@ public class GeraIndiceSeqIndex {
 			System.out.printf("-------------------------------------------------------\n");
 			
 			indice = (indiceArquivo-1) * 385;
+			
+			if (indiceArquivo == 0) indice = 1;
 			
 			for (i = indice; i <= (indice + 1155); i=i+385) {
 				dadosArquivo.seek(i);
