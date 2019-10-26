@@ -1,9 +1,12 @@
 package principal;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import sun.util.BuddhistCalendar;
 
 public class GerarIndiceHash {
 	private static Map<String, List<DadosTweet>> hash = new HashMap<>();
@@ -19,6 +22,12 @@ public class GerarIndiceHash {
                 System.out.println(c.getId_tweet() + " - " + c.getData().trim() + " - " + c.getLinha());
             }
         }	
+        
+        try {
+			BusarSeek.ProcurarNoArquivoSeek(9);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void AlimentarIndiceHash () {

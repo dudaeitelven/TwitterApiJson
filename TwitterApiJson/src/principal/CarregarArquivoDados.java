@@ -39,7 +39,7 @@ public class CarregarArquivoDados {
 				friends_count = linhaDados.substring(73, 83);
 				id_tweet = linhaDados.substring(83, 104);
 				data = linhaDados.substring(105,136);
-				text = linhaDados.substring(156, 438);
+				text = linhaDados.substring(156, 430);
 				elo = " ";
 				
 				linha++;
