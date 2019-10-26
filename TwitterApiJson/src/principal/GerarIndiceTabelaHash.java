@@ -7,13 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 
-public class GerarIndiceHash {
+public class GerarIndiceTabelaHash {
 	private static Map<String, List<DadosTweet>> hash = new HashMap<>();
 	private static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
 	
-	public void GeraIndiceHash() {
-		String keyToSearch = null;
-		String ValueToSearch = null;
+	public void GerarIndiceHash(String keyToSearch, String ValueToSearch) {
 		long indice = 0;
 		
 		AlimentarIndiceHash();
@@ -26,9 +24,6 @@ public class GerarIndiceHash {
 //        }
 //    }	
 		      
-		keyToSearch = "2019-10-24";
-		ValueToSearch = "1187503296241643520";
-		       
 		indice = BuscarIndiceHash(keyToSearch,ValueToSearch);
 		
 		if (indice != 0) {
@@ -45,7 +40,6 @@ public class GerarIndiceHash {
 	}
 	
 	public static long BuscarIndiceHash (String keyToSearch, String ValueToSearch) {
-		long linha = 0;
 		String ValueHash = null;
 		
         for (String key : hash.keySet()) {
@@ -65,8 +59,9 @@ public class GerarIndiceHash {
 
 	public static void AlimentarIndiceHash () {
 		String keyToSearch = null;
-
-		aDadosTweet = CarregarArquivoDados.CarregarArquivoDados();
+		
+		CarregarArquivoDados carregaDados = new CarregarArquivoDados();
+		aDadosTweet = carregaDados.RetornarArquivoDados();
 		
 		for (DadosTweet aDados : aDadosTweet) {
 			keyToSearch = aDados.getData().trim();

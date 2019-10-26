@@ -10,7 +10,7 @@ public class CarregarArquivoDados {
 	private static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
 	private static String arquivodeDados = "D:\\twitterSimples.txt";
 	
-	public static ArrayList<DadosTweet> CarregarArquivoDados() {
+	public ArrayList<DadosTweet> RetornarArquivoDados() {
 		String id_user = null;
 		String name = null;
 		String followers_count = null;

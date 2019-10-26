@@ -11,16 +11,11 @@ import java.util.ArrayList;
 
 
 public class GeraIndiceSeqIndex {
-
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
 	long resultadoPesquisa = 0;
-	// Arquivo de dados para leitura
-	//public static String arquivodeDados = "C:\\Users\\Alex\\Desktop\\Organização de Arquivos\\teste2.txt";
-	//public static String arquivodeDados = "C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\twitter2.txt";
 	public static String arquivodeDados = "D:\\twitterSimples.txt";
 
-	public GeraIndiceSeqIndex() {
-
+	public void GerarIndiceSeqIndex(String idUsuario) {
 		GeraArquivodeDadosOrdenado(aDadosTweet);
 		OrdenaArquivoIdUser(aDadosTweet);
 		GeraArquivoDeDados(aDadosTweet);
@@ -33,7 +28,7 @@ public class GeraIndiceSeqIndex {
 		GeraArquivoDeIndice(aDadosTweet);
 
 		try {
-			resultadoPesquisa = pesquisaBin("331047699");
+			resultadoPesquisa = pesquisaBin(idUsuario);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -42,7 +37,7 @@ public class GeraIndiceSeqIndex {
 		System.out.println("--");
 
 		try {
-			ProcuraNoArquivo(resultadoPesquisa,"331047699");
+			ProcuraNoArquivo(resultadoPesquisa,idUsuario);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
