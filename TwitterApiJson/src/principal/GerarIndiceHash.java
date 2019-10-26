@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sun.util.BuddhistCalendar;
 
 public class GerarIndiceHash {
 	private static Map<String, List<DadosTweet>> hash = new HashMap<>();
