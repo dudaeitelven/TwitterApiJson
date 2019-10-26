@@ -12,11 +12,12 @@ public class DadosTweet {
 	private String elo;
 	private long idTweet;
 	private long idUser;
+	private long linha;
 	
 	
 	
 	public DadosTweet(String id_user, String name, String followers_count, String friends_count,
-			String id_tweet, String data, String text,  String elo, long idUser, long idTweet) {
+			String id_tweet, String data, String text,  String elo, long idUser, long idTweet, long linha) {
 		super();
 		this.id_user = id_user;
 		this.name = name;
@@ -28,12 +29,8 @@ public class DadosTweet {
 		this.elo = elo;
 		this.idUser = idUser;
 		this.idTweet = idTweet;	
+		this.linha = linha;
 	}
-	
-	public DadosTweet() {
-		
-	}
-
 
 	public String getId_user() {
 		return id_user;
@@ -130,6 +127,14 @@ public class DadosTweet {
 
 	public void setIdUser(long idUser) {
 		this.idUser = idUser;
+	}
+	
+	public long getLinha() {
+		return linha;
+	}
+
+	public void setLinha(long linha) {
+		this.linha = linha;
 	}
 	
 	

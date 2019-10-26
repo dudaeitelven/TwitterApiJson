@@ -91,7 +91,7 @@ public class GeraIndiceSeqIndex {
 				idUser = Long.parseLong(linha.substring(0, 21).trim());
 				idTweet = Long.parseLong(linha.substring(83, 104).trim());
 				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count, id_tweet, data,
-						text, elo, idUser, idTweet);
+						text, elo, idUser, idTweet, 0);
 				aDadosTweet.add(dadosLinha);
 ;
 			}
@@ -160,7 +160,7 @@ public class GeraIndiceSeqIndex {
 				idUser = Long.parseLong(linha.substring(0, 21).trim());
 				idTweet = Long.parseLong(linha.substring(83, 104).trim());
 				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count, id_tweet, data,
-						text, elo, idUser, idTweet);
+						text, elo, idUser, idTweet, 0);
 				aDadosTweet.add(dadosLinha);
 
 			}
