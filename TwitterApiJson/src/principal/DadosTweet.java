@@ -29,6 +29,10 @@ public class DadosTweet {
 		this.idUser = idUser;
 		this.idTweet = idTweet;	
 	}
+	
+	public DadosTweet() {
+		
+	}
 
 
 	public String getId_user() {
