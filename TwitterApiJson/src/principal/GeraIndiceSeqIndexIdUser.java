@@ -10,7 +10,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 
-public class GeraIndiceSeqIndex {
+public class GeraIndiceSeqIndexIdUser {
 	public static ArrayList<DadosTweet> aDadosTweet = new ArrayList<DadosTweet>();
 	long resultadoPesquisa = 0;
 	public static String arquivodeDados = "D:\\twitterSimples.txt";
@@ -18,13 +18,10 @@ public class GeraIndiceSeqIndex {
 	public void GerarIndiceSeqIndex(String idUsuario) {
 		GeraArquivodeDadosOrdenado(aDadosTweet);
 		OrdenaArquivoIdUser(aDadosTweet);
-		GeraArquivoDeDados(aDadosTweet);
-		
+		GeraArquivoDeDados(aDadosTweet);		
 		aDadosTweet = new ArrayList<DadosTweet>();
 		PopulaArrayDados(aDadosTweet);
 		OrdenaArquivoIdUser(aDadosTweet);
-
-		//ImprimeADadosTweet(aDadosTweet);
 		GeraArquivoDeIndice(aDadosTweet);
 
 		try {
@@ -118,18 +115,6 @@ public class GeraIndiceSeqIndex {
 		long idUser = 0;
 		long idTweet = 0;
 
-		/* Escolhe o Arquivo para editar */
-		/*
-		 * JFileChooser abrir = new JFileChooser(); int res =
-		 * abrir.showOpenDialog(abrir); if (res == JFileChooser.APPROVE_OPTION) {
-		 * JOptionPane.showMessageDialog(null, "Voce selecionou o arquivo :" +
-		 * abrir.getSelectedFile().getName()); // nomeArquivo =
-		 * abrir.getSelectedFile().getName();
-		 * 
-		 * }
-		 */
-
-		/* Le o Arquivo e faz a inclusão nos objetos */
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(arquivodeDados));
@@ -157,7 +142,6 @@ public class GeraIndiceSeqIndex {
 				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count, id_tweet, data,
 						text, elo, idUser, idTweet, 0);
 				aDadosTweet.add(dadosLinha);
-
 			}
 
 		} catch (IOException e) {
@@ -173,21 +157,21 @@ public class GeraIndiceSeqIndex {
 
 	}
 
-	public void ImprimeADadosTweet(ArrayList<DadosTweet> aDadosTweet) {
-		for (DadosTweet dados : aDadosTweet) {
-			System.out.println("--Dados Tweet--");
-			System.out.println("id_user:" + dados.getId_user());
-			System.out.println("name:" + dados.getName());
-			System.out.println("followers_count:" + dados.getFollowers_count());
-			System.out.println("friends_count:" + dados.getFriends_count());
-			System.out.println("idTweet:" + dados.getIdTweet());
-			System.out.println("data:" + dados.getData());
-			System.out.println("text:" + dados.getText());
-			System.out.println("iduser long:" + dados.getIdUser());
-			System.out.println("idTweet:" + dados.getIdTweet());
-		}
-
-	}
+//	public void ImprimeADadosTweet(ArrayList<DadosTweet> aDadosTweet) {
+//		for (DadosTweet dados : aDadosTweet) {
+//			System.out.println("--Dados Tweet--");
+//			System.out.println("id_user:" + dados.getId_user());
+//			System.out.println("name:" + dados.getName());
+//			System.out.println("followers_count:" + dados.getFollowers_count());
+//			System.out.println("friends_count:" + dados.getFriends_count());
+//			System.out.println("idTweet:" + dados.getIdTweet());
+//			System.out.println("data:" + dados.getData());
+//			System.out.println("text:" + dados.getText());
+//			System.out.println("iduser long:" + dados.getIdUser());
+//			System.out.println("idTweet:" + dados.getIdTweet());
+//		}
+//
+//	}
 
 	public static void GeraArquivoDeIndice(ArrayList<DadosTweet> aDadosTweet) {
 		int contLinha = 0;
@@ -195,26 +179,20 @@ public class GeraIndiceSeqIndex {
 		String sInicioBloco = null;
 		int i;
 		String sId_Usuario = null;
+		
 		FileWriter arq = null;
 		try {
-			//arq = new FileWriter("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\INDICE.txt");
-			//arq = new FileWriter("C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\INDICE.txt");
 			arq = new FileWriter("D:\\INDICE.txt");
-			
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		PrintWriter gravarArq = new PrintWriter(arq);
-
-		/* Tipo 10 */
 		for (i = 1; i < aDadosTweet.size() - 1; i++) {
-			
 			contLinha++;
 			if (contLinha == 1) {
 				inicioBloco = i;
 				sInicioBloco = String.format("%06d", inicioBloco); // 12345678901
-				
 			}
 			if (contLinha == 3) {
 				sId_Usuario = String.format("%020d", aDadosTweet.get(i).getIdUser()); // 12345678901
@@ -229,17 +207,13 @@ public class GeraIndiceSeqIndex {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void GeraArquivoDeDados(ArrayList<DadosTweet> aDadosTweet) {
-
 		int i;
 		FileWriter arq = null;
+		
 		try {
-
-			//arq = new FileWriter("D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt");
-			//arq = new FileWriter("C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\ArquivoDeDados.txt");
 			arq = new FileWriter("D:\\ArquivoDeDados.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -256,7 +230,6 @@ public class GeraIndiceSeqIndex {
 		try {
 			arq.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -264,9 +237,6 @@ public class GeraIndiceSeqIndex {
 
 	public static void OrdenaArquivoIdUser(ArrayList<DadosTweet> aDadosTweet) {
 		int i, j, menor;
-
-		/* Variaveis Temporárias */
-
 		String tempId_user = null;
 		String tempName = null;
 		String tempFollowers_count = null;
@@ -293,7 +263,6 @@ public class GeraIndiceSeqIndex {
 					tempIdUser = 0;
 					tempIdTweet = 0;
 
-					// temp.add(aDadosTweet.get(menor));
 					tempId_user = aDadosTweet.get(j).getId_user();
 					tempName = aDadosTweet.get(j).getName();
 					tempFollowers_count = aDadosTweet.get(j).getFollowers_count();
@@ -351,10 +320,6 @@ public class GeraIndiceSeqIndex {
 		
 	
 		try {
-//			RandomAccessFile dadosArquivo = new RandomAccessFile(
-//					"D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt", "r");
-//			RandomAccessFile arquivoIndice = new RandomAccessFile(
-//					"C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\INDICE.txt", "rw");
 			RandomAccessFile arquivoIndice = new RandomAccessFile("D:\\INDICE.txt","rw");
 			
 			fim = (int) (arquivoIndice.length() / 26);
@@ -363,7 +328,6 @@ public class GeraIndiceSeqIndex {
 			while (inicio <= fim) {
 				meio = (inicio + fim) / 2;
 							
-				
 				if (meio <= 1) {
 					arquivoIndice.close();
 					return 1;
@@ -382,7 +346,6 @@ public class GeraIndiceSeqIndex {
 				valorIndice =  Long.parseLong(linha.substring(0,20));
 				indice =  Integer.parseInt(linha.substring(20,26)); 
 				
-
 				if (procura > valorIndiceAnterior && procura <= valorIndice) {
 					arquivoIndice.close();
 					return indice;
@@ -403,17 +366,11 @@ public class GeraIndiceSeqIndex {
 	}
 
 	public void ProcuraNoArquivo(long indiceArquivo, String valorProcurado) throws IOException {
-
 		long i = 0;
 		long indice = 0;
 		String linha;
 
 		try {
-//			RandomAccessFile dadosArquivo = new RandomAccessFile(
-//					"D:\\WSEclipse\\ARQUIVOS TRABALHO OA\\ArquivoDeDados.txt", "r");
-//			RandomAccessFile dadosArquivo = new RandomAccessFile(
-//					"C:\\Users\\Duda\\git\\TwitterApiJson\\TwitterApiJson\\src\\files\\ArquivoDeDados.txt", "r");
-			
 			RandomAccessFile dadosArquivo = new RandomAccessFile("D:\\ArquivoDeDados.txt", "r");
 
 			System.out.printf("-------------------------------------------------------\n");
@@ -436,12 +393,12 @@ public class GeraIndiceSeqIndex {
 		}
 	}
 
-	private static String lerString(RandomAccessFile arq, int tam) throws IOException {
-		char result[] = new char[tam];
-		for (int i = 0; i < tam; i++) {
-			result[i] = arq.readChar();
-		}
-		return (new String(result).replace('\0', ' '));
-	}
+//	private static String lerString(RandomAccessFile arq, int tam) throws IOException {
+//		char result[] = new char[tam];
+//		for (int i = 0; i < tam; i++) {
+//			result[i] = arq.readChar();
+//		}
+//		return (new String(result).replace('\0', ' '));
+//	}
 
 }

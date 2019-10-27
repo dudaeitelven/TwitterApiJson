@@ -15,17 +15,23 @@ public class Main  {
 	
 	public static void carregaMenu(int Escolha) {
 		String keyToSearch, ValueToSearch;
-		String idUsuario = null;
 		
 		Scanner entrada = new Scanner(System.in);
 
 		switch (Escolha) {
 			case 1: 
-				GeraIndiceSeqIndex SeqInd1 = new GeraIndiceSeqIndex();
-				SeqInd1.GerarIndiceSeqIndex(idUsuario);
+				System.out.println("Informe o id_usuario:");
+				ValueToSearch = entrada.nextLine();
+				
+				GeraIndiceSeqIndexIdUser SeqInd1 = new GeraIndiceSeqIndexIdUser();
+				SeqInd1.GerarIndiceSeqIndex(ValueToSearch);
 				break;
 			case 2: 
-
+				System.out.println("Informe o id_tweet:");
+				ValueToSearch = entrada.nextLine();
+				
+				GeraIndiceSeqIndexIdTweet SeqInd2 = new GeraIndiceSeqIndexIdTweet();
+				SeqInd2.GerarIndiceSeqIndex(ValueToSearch);
 				break;
 			case 3: 
 				System.out.println("Informe uma data no seguinte formato: 2019-10-24");
