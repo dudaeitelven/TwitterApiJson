@@ -335,13 +335,11 @@ public class GeraIndiceSeqIndexIdUser {
 				
 				arquivoIndice.seek((meio-2) * 27);
 				arquivoIndice.read(bVetorAnt, 0, 26);
-				//System.out.println(new String(bVetorAnt));	
 				linhaAnt = new String(bVetorAnt);
 				valorIndiceAnterior = Long.parseLong(linhaAnt.substring(0,20)); 
 				
 				arquivoIndice.seek((meio-1) * 27);
 				arquivoIndice.read(bVetor, 0, 26);
-				//System.out.println(new String(bVetor));	
 				linha = new String(bVetor);
 				valorIndice =  Long.parseLong(linha.substring(0,20));
 				indice =  Integer.parseInt(linha.substring(20,26)); 
@@ -350,9 +348,9 @@ public class GeraIndiceSeqIndexIdUser {
 					arquivoIndice.close();
 					return indice;
 				} else {
-					if (procura < valorIndice)
+					if (procura < indice)
 						fim = meio - 1;
-					else if (procura > valorIndice)
+					else if (procura > indice)
 						inicio = meio + 1;
 				}
 			}
@@ -364,7 +362,6 @@ public class GeraIndiceSeqIndexIdUser {
 		
 		return 0;
 	}
-
 	public void ProcuraNoArquivo(long indiceArquivo, String valorProcurado) throws IOException {
 		long i = 0;
 		long indice = 0;

@@ -1,5 +1,8 @@
 package principal;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Main  {
@@ -14,31 +17,54 @@ public class Main  {
 	}
 	
 	public static void carregaMenu(int Escolha) {
-		String keyToSearch, ValueToSearch;
+		String keyToSearch = null, ValueToSearch = null;
 		
-		Scanner entrada = new Scanner(System.in);
+		//Scanner entrada = new Scanner(System.in);
+		BufferedReader entrada = new BufferedReader(
+				new InputStreamReader(System.in));
 
 		switch (Escolha) {
 			case 1: 
 				System.out.println("Informe o id_usuario:");
-				ValueToSearch = entrada.nextLine();
+				//ValueToSearch = entrada.nextLine();
+			try {
+				ValueToSearch =entrada.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				
 				GeraIndiceSeqIndexIdUser SeqInd1 = new GeraIndiceSeqIndexIdUser();
 				SeqInd1.GerarIndiceSeqIndex(ValueToSearch);
 				break;
 			case 2: 
 				System.out.println("Informe o id_tweet:");
-				ValueToSearch = entrada.nextLine();
+			try {
+				ValueToSearch = entrada.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				
-			//	GeraIndiceSeqIndexIdTweet SeqInd2 = new GeraIndiceSeqIndexIdTweet();
-			//	SeqInd2.GerarIndiceSeqIndex(ValueToSearch);
+				GeraIndiceSeqIndexIdTweet SeqInd2 = new GeraIndiceSeqIndexIdTweet();
+				SeqInd2.GerarIndiceSeqIndex(ValueToSearch);
 				break;
 			case 3: 
 				System.out.println("Informe uma data no seguinte formato: 2019-10-24");
-				keyToSearch = entrada.nextLine();
-				
+				//keyToSearch = entrada.nextLine();
+			try {
+				keyToSearch =entrada.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				System.out.println("Informe o id_tweet");
-				ValueToSearch = entrada.nextLine();
+			try {
+				ValueToSearch = entrada.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 				
 				GerarIndiceTabelaHash hashTest = new GerarIndiceTabelaHash();
 				hashTest.GerarIndiceHash(keyToSearch,ValueToSearch);
@@ -49,7 +75,7 @@ public class Main  {
 				break;
 		}
 		
-		entrada.close();
+		//entrada.close();
 	}
 	
 	public void chamaMenu() {

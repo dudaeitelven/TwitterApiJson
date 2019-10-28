@@ -70,7 +70,7 @@ public class GeraIndiceSeqIndexIdTweet {
 				friends_count = linha.substring(73, 83);
 				id_tweet = linha.substring(83, 104);
 				data = linha.substring(105,136);
-				text = linha.substring(156, 438);
+				text = linha.substring(156, 437);
 				elo = " ";
 				
 				idUser = Long.parseLong(linha.substring(0, 21).trim());
@@ -325,30 +325,37 @@ public class GeraIndiceSeqIndexIdTweet {
 		
 		return 0;
 	}
-
 	public void ProcuraNoArquivo(long indiceArquivo, String valorProcurado) throws IOException {
 		long i = 0;
 		long indice = 0;
 		String linha;
+		byte[] byteVetor = new byte[388];
 
 		try {
 			RandomAccessFile dadosArquivo = new RandomAccessFile("D:\\ArquivoDeDados.txt", "r");
 
 			System.out.printf("-------------------------------------------------------\n");
 			
-			indice = (indiceArquivo-1) * 439;
+			indice = (indiceArquivo-1) * 397;
 			
-			if (indiceArquivo == 0) indice = 1;
-			
-			for (i = indice; i <= (indice + 1317); i=i+439) {
+			if ((indiceArquivo == 0) || ((indiceArquivo - 1) == 0)) indice = 1;
+
+			for (i = indice; i <= (indice + 1191); i=i+397) {
+//				dadosArquivo.seek(i);
+//					linha = (String) dadosArquivo.readLine();
+//					if(linha.contains(valorProcurado))
+//						System.out.println(linha);
+				
 				dadosArquivo.seek(i);
-					linha = (String) dadosArquivo.readLine();
-					if(linha.contains(valorProcurado))
-						System.out.println(linha);
+				dadosArquivo.read(byteVetor, 0, 388);
+				linha = new String(byteVetor);
+				if(linha.contains(valorProcurado)) {
+					System.out.println(linha);
+					System.out.printf("-------------------------------------------------------\n");
+					dadosArquivo.close();
+					break;
+				}
 			}
-			System.out.printf("-------------------------------------------------------\n");
-			dadosArquivo.close();
-			
 		} catch (FileNotFoundException e) {
 			System.err.printf("Arquivo não encontrado: %s.\n", e.getMessage());
 		}
