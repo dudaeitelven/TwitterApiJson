@@ -350,9 +350,9 @@ public class GeraIndiceSeqIndexIdUser {
 					arquivoIndice.close();
 					return indice;
 				} else {
-					if (procura < indice)
+					if (procura < valorIndice)
 						fim = meio - 1;
-					else if (procura > indice)
+					else if (procura > valorIndice)
 						inicio = meio + 1;
 				}
 			}
@@ -369,33 +369,33 @@ public class GeraIndiceSeqIndexIdUser {
 		long i = 0;
 		long indice = 0;
 		String linha;
-		byte[] byteVetor = new byte[430];
+		byte[] byteVetor = new byte[388];
 
 		try {
 			RandomAccessFile dadosArquivo = new RandomAccessFile("D:\\ArquivoDeDados.txt", "r");
 
 			System.out.printf("-------------------------------------------------------\n");
 			
-			indice = (indiceArquivo-1) * 439;
+			indice = (indiceArquivo-1) * 397;
 			
-			if (indiceArquivo == 0) indice = 1;
-			
-			for (i = indice; i <= (indice + 1317); i=i+439) {
+			if ((indiceArquivo == 0) || ((indiceArquivo - 1) == 0)) indice = 1;
+
+			for (i = indice; i <= (indice + 1191); i=i+397) {
 //				dadosArquivo.seek(i);
 //					linha = (String) dadosArquivo.readLine();
 //					if(linha.contains(valorProcurado))
 //						System.out.println(linha);
 				
-				dadosArquivo.seek(((indice -1) * 439));
-				dadosArquivo.read(byteVetor, 0, 430);
+				dadosArquivo.seek(i);
+				dadosArquivo.read(byteVetor, 0, 388);
 				linha = new String(byteVetor);
-				if(linha.contains(valorProcurado))
+				if(linha.contains(valorProcurado)) {
 					System.out.println(linha);
-				
+					System.out.printf("-------------------------------------------------------\n");
+					dadosArquivo.close();
+					break;
+				}
 			}
-			System.out.printf("-------------------------------------------------------\n");
-			dadosArquivo.close();
-			
 		} catch (FileNotFoundException e) {
 			System.err.printf("Arquivo não encontrado: %s.\n", e.getMessage());
 		}
