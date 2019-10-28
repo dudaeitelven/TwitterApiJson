@@ -30,8 +30,8 @@ public class Main  {
 				System.out.println("Informe o id_tweet:");
 				ValueToSearch = entrada.nextLine();
 				
-				GeraIndiceSeqIndexIdTweet SeqInd2 = new GeraIndiceSeqIndexIdTweet();
-				SeqInd2.GerarIndiceSeqIndex(ValueToSearch);
+			//	GeraIndiceSeqIndexIdTweet SeqInd2 = new GeraIndiceSeqIndexIdTweet();
+			//	SeqInd2.GerarIndiceSeqIndex(ValueToSearch);
 				break;
 			case 3: 
 				System.out.println("Informe uma data no seguinte formato: 2019-10-24");
@@ -44,11 +44,17 @@ public class Main  {
 				hashTest.GerarIndiceHash(keyToSearch,ValueToSearch);
 				break;
 			case 4: 
-				
+				GeraIndiceArvoreBinaria arvBinaria = new GeraIndiceArvoreBinaria();
+				arvBinaria.main();
 				break;
 		}
 		
 		entrada.close();
+	}
+	
+	public void chamaMenu() {
+		
+		
 	}
 
 	public static void main(String[] args) {

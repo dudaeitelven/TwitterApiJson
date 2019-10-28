@@ -120,7 +120,7 @@ public class GeraIndiceSeqIndexIdTweet {
 				friends_count = linha.substring(73, 83);
 				id_tweet = linha.substring(83, 104);
 				data = linha.substring(105,136);
-				text = linha.substring(156, 438);
+				text = linha.substring(156, 437);
 				elo = " ";
 				
 				idUser = Long.parseLong(linha.substring(0, 21).trim());
@@ -336,11 +336,11 @@ public class GeraIndiceSeqIndexIdTweet {
 
 			System.out.printf("-------------------------------------------------------\n");
 			
-			indice = (indiceArquivo-1) * 392;
+			indice = (indiceArquivo-1) * 439;
 			
 			if (indiceArquivo == 0) indice = 1;
 			
-			for (i = indice; i <= (indice + 1176); i=i+392) {
+			for (i = indice; i <= (indice + 1317); i=i+439) {
 				dadosArquivo.seek(i);
 					linha = (String) dadosArquivo.readLine();
 					if(linha.contains(valorProcurado))

@@ -15,7 +15,8 @@ public class BusarSeek {
 
 			System.out.printf("-------------------------------------------------------\n");
 			
-			dadosArquivo.seek((indice-1) * 457);
+			//dadosArquivo.seek(((indice) * 442	) - 884);
+			dadosArquivo.seek(((indice -1) * 439));
 			dadosArquivo.read(byteVetor, 0, 430);
 			linha = new String(byteVetor);
 			
