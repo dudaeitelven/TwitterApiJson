@@ -31,7 +31,6 @@ public class GeraIndiceSeqIndexIdTweet {
 		}
 		
 		System.out.println("Resultado da pesquisa:" + resultadoPesquisa);
-		System.out.println("--");
 
 		try {
 			ProcuraNoArquivo(resultadoPesquisa,idUsuario);
@@ -166,7 +165,7 @@ public class GeraIndiceSeqIndexIdTweet {
 		
 		FileWriter arq = null;
 		try {
-			arq = new FileWriter("D:\\INDICE.txt");
+			arq = new FileWriter("D:\\IndiceTweet.txt");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
@@ -198,7 +197,7 @@ public class GeraIndiceSeqIndexIdTweet {
 		FileWriter arq = null;
 		
 		try {
-			arq = new FileWriter("D:\\ArquivoDeDados.txt");
+			arq = new FileWriter("D:\\ArquivoDeDadosTweet.txt");
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -304,7 +303,7 @@ public class GeraIndiceSeqIndexIdTweet {
 		
 	
 		try {
-			RandomAccessFile arquivoIndice = new RandomAccessFile("D:\\INDICE.txt","rw");
+			RandomAccessFile arquivoIndice = new RandomAccessFile("D:\\IndiceTweet.txt","rw");
 			
 			fim = (int) (arquivoIndice.length() / 26);
 			procura = Long.parseLong(ValorProcurado);
@@ -353,10 +352,10 @@ public class GeraIndiceSeqIndexIdTweet {
 		long i = 0;
 		long indice = 0;
 		String linha;
-		byte[] byteVetor = new byte[388];
+		byte[] byteVetor = new byte[392];
 
 		try {
-			RandomAccessFile dadosArquivo = new RandomAccessFile("D:\\ArquivoDeDados.txt", "r");
+			RandomAccessFile dadosArquivo = new RandomAccessFile("D:\\ArquivoDeDadosTweet.txt", "r");
 
 			System.out.printf("-------------------------------------------------------\n");
 			
@@ -366,10 +365,10 @@ public class GeraIndiceSeqIndexIdTweet {
 
 			for (i = indice; i <= (indice + 1182); i=i+394) {
 				dadosArquivo.seek(i);
-				dadosArquivo.read(byteVetor, 0, 388);
+				dadosArquivo.read(byteVetor, 0, 392);
 				linha = new String(byteVetor);
 				if(linha.contains(valorProcurado)) {
-					System.out.println(linha);
+					System.out.println(linha);	
 					System.out.printf("-------------------------------------------------------\n");
 					dadosArquivo.close();
 					break;
