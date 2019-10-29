@@ -53,17 +53,24 @@ public class GeraIndiceSeqIndexIdTweet {
 		long idUser = 0;
 		long idTweet = 0;
 
-		/* Le o Arquivo e faz a inclus√£o nos objetos */
+		/* Le o Arquivo e faz a inclus„o nos objetos */
 		BufferedReader reader = null;
 		try {
+			// reader = new BufferedReader(new InputStreamReader(new
+			// FileInputStream(abrir.getSelectedFile().toString())));
 			reader = new BufferedReader(new FileReader(arquivodeDados));
+
 		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		String linha = null;
+
 		try {
 			while ((linha = reader.readLine()) != null) {
+				// LER DADOS
+
 				id_user = linha.substring(0, 21);
 				name = linha.substring(21, 62);
 				followers_count = linha.substring(62, 73);
@@ -78,14 +85,17 @@ public class GeraIndiceSeqIndexIdTweet {
 				DadosTweet dadosLinha = new DadosTweet(id_user, name, followers_count, friends_count, id_tweet, data,
 						text, elo, idUser, idTweet, 0);
 				aDadosTweet.add(dadosLinha);
+;
 			}
 
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			reader.close();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -98,6 +108,8 @@ public class GeraIndiceSeqIndexIdTweet {
 		String friends_count = null;
 		String id_tweet = null;
 		String text = null;
+		String hashtag = null;
+		String user_mentions = null;
 		String data = null;
 		String elo = null;
 		long idUser = 0;
@@ -114,6 +126,8 @@ public class GeraIndiceSeqIndexIdTweet {
 
 		try {
 			while ((linha = reader.readLine()) != null) {
+				// LER DADOS
+
 				id_user = linha.substring(0, 21);
 				name = linha.substring(21, 62);
 				followers_count = linha.substring(62, 73);
@@ -131,11 +145,13 @@ public class GeraIndiceSeqIndexIdTweet {
 			}
 
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			reader.close();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -144,8 +160,8 @@ public class GeraIndiceSeqIndexIdTweet {
 	public static void GeraArquivoDeIndice(ArrayList<DadosTweet> aDadosTweet) {
 		int contLinha = 0;
 		int inicioBloco = 0;
-		int i;
 		String sInicioBloco = null;
+		int i;
 		String sId_Tweet = null;
 		
 		FileWriter arq = null;
@@ -160,13 +176,14 @@ public class GeraIndiceSeqIndexIdTweet {
 			contLinha++;
 			if (contLinha == 1) {
 				inicioBloco = i;
-				sInicioBloco = String.format("%06d", inicioBloco); // 12345678901
+				sInicioBloco = String.format("%06d", inicioBloco); 
 			}
 			if (contLinha == 3) {
-				sId_Tweet = String.format("%020d", aDadosTweet.get(i).getIdUser()); // 12345678901
+				sId_Tweet = String.format("%020d", aDadosTweet.get(i).getIdTweet()); 
 				gravarArq.printf(sId_Tweet + sInicioBloco + "\n");
 				contLinha = 0;
 			}
+			
 		}
 
 		try {
@@ -183,10 +200,12 @@ public class GeraIndiceSeqIndexIdTweet {
 		try {
 			arq = new FileWriter("D:\\ArquivoDeDados.txt");
 		} catch (IOException e1) {
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		PrintWriter gravarArq = new PrintWriter(arq);
 
+		/* Tipo 10 */
 		for (i = 1; i < aDadosTweet.size(); i++) {
 			gravarArq.printf(aDadosTweet.get(i).getId_user() + aDadosTweet.get(i).getName()
 					+ aDadosTweet.get(i).getIdTweet()  + aDadosTweet.get(i).getData() + aDadosTweet.get(i).getText() +  "\n");
@@ -201,7 +220,7 @@ public class GeraIndiceSeqIndexIdTweet {
 	}
 
 	public static void OrdenaArquivoIdUser(ArrayList<DadosTweet> aDadosTweet) {
-		int i, j;
+		int i, j, menor;
 		String tempId_user = null;
 		String tempName = null;
 		String tempFollowers_count = null;
@@ -215,7 +234,8 @@ public class GeraIndiceSeqIndexIdTweet {
 
 		for (i = 0; i < aDadosTweet.size() - 1; i++) {
 			for (j = 0; j < aDadosTweet.size() - 1; j++) {
-				if (aDadosTweet.get(j).getIdTweet()> aDadosTweet.get(j + 1).getIdTweet()) {
+				if (aDadosTweet.get(j).getIdTweet() > aDadosTweet.get(j + 1).getIdTweet()) {
+
 					tempId_user = null;
 					tempName = null;
 					tempFollowers_count = null;
@@ -264,6 +284,7 @@ public class GeraIndiceSeqIndexIdTweet {
 				}
 			}
 		}
+
 	}
 
 	public long pesquisaBin(String ValorProcurado) throws IOException {	
@@ -298,11 +319,13 @@ public class GeraIndiceSeqIndexIdTweet {
 				
 				arquivoIndice.seek((meio-2) * 27);
 				arquivoIndice.read(bVetorAnt, 0, 26);
+				//System.out.println(new String(bVetorAnt));	
 				linhaAnt = new String(bVetorAnt);
 				valorIndiceAnterior = Long.parseLong(linhaAnt.substring(0,20)); 
 				
 				arquivoIndice.seek((meio-1) * 27);
 				arquivoIndice.read(bVetor, 0, 26);
+				//System.out.println(new String(bVetor));	
 				linha = new String(bVetor);
 				valorIndice =  Long.parseLong(linha.substring(0,20));
 				indice =  Integer.parseInt(linha.substring(20,26)); 
@@ -311,20 +334,21 @@ public class GeraIndiceSeqIndexIdTweet {
 					arquivoIndice.close();
 					return indice;
 				} else {
-					if (procura < indice)
+					if (procura < valorIndice)
 						fim = meio - 1;
-					else if (procura > indice)
+					else if (procura > valorIndice)
 						inicio = meio + 1;
 				}
 			}
 			
 			arquivoIndice.close();
 		} catch (FileNotFoundException e) {
-			System.err.printf("Arquivo n√£o encontrado: %s.\n", e.getMessage());
+			System.err.printf("Arquivo n„o encontrado: %s.\n", e.getMessage());
 		}
 		
 		return 0;
 	}
+
 	public void ProcuraNoArquivo(long indiceArquivo, String valorProcurado) throws IOException {
 		long i = 0;
 		long indice = 0;
@@ -336,16 +360,11 @@ public class GeraIndiceSeqIndexIdTweet {
 
 			System.out.printf("-------------------------------------------------------\n");
 			
-			indice = (indiceArquivo-1) * 397;
+			indice = (indiceArquivo-1) * 394;
 			
 			if ((indiceArquivo == 0) || ((indiceArquivo - 1) == 0)) indice = 1;
 
-			for (i = indice; i <= (indice + 1191); i=i+397) {
-//				dadosArquivo.seek(i);
-//					linha = (String) dadosArquivo.readLine();
-//					if(linha.contains(valorProcurado))
-//						System.out.println(linha);
-				
+			for (i = indice; i <= (indice + 1182); i=i+394) {
 				dadosArquivo.seek(i);
 				dadosArquivo.read(byteVetor, 0, 388);
 				linha = new String(byteVetor);
@@ -357,7 +376,9 @@ public class GeraIndiceSeqIndexIdTweet {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			System.err.printf("Arquivo n√£o encontrado: %s.\n", e.getMessage());
+			System.err.printf("Arquivo n„o encontrado: %s.\n", e.getMessage());
 		}
 	}
+
+
 }

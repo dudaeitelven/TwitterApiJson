@@ -53,7 +53,7 @@ public class GeraIndiceSeqIndexIdUser {
 		long idUser = 0;
 		long idTweet = 0;
 
-		/* Le o Arquivo e faz a inclus√£o nos objetos */
+		/* Le o Arquivo e faz a inclus„o nos objetos */
 		BufferedReader reader = null;
 		try {
 			// reader = new BufferedReader(new InputStreamReader(new
@@ -156,22 +156,6 @@ public class GeraIndiceSeqIndexIdUser {
 		}
 
 	}
-
-//	public void ImprimeADadosTweet(ArrayList<DadosTweet> aDadosTweet) {
-//		for (DadosTweet dados : aDadosTweet) {
-//			System.out.println("--Dados Tweet--");
-//			System.out.println("id_user:" + dados.getId_user());
-//			System.out.println("name:" + dados.getName());
-//			System.out.println("followers_count:" + dados.getFollowers_count());
-//			System.out.println("friends_count:" + dados.getFriends_count());
-//			System.out.println("idTweet:" + dados.getIdTweet());
-//			System.out.println("data:" + dados.getData());
-//			System.out.println("text:" + dados.getText());
-//			System.out.println("iduser long:" + dados.getIdUser());
-//			System.out.println("idTweet:" + dados.getIdTweet());
-//		}
-//
-//	}
 
 	public static void GeraArquivoDeIndice(ArrayList<DadosTweet> aDadosTweet) {
 		int contLinha = 0;
@@ -335,11 +319,13 @@ public class GeraIndiceSeqIndexIdUser {
 				
 				arquivoIndice.seek((meio-2) * 27);
 				arquivoIndice.read(bVetorAnt, 0, 26);
+				//System.out.println(new String(bVetorAnt));	
 				linhaAnt = new String(bVetorAnt);
 				valorIndiceAnterior = Long.parseLong(linhaAnt.substring(0,20)); 
 				
 				arquivoIndice.seek((meio-1) * 27);
 				arquivoIndice.read(bVetor, 0, 26);
+				//System.out.println(new String(bVetor));	
 				linha = new String(bVetor);
 				valorIndice =  Long.parseLong(linha.substring(0,20));
 				indice =  Integer.parseInt(linha.substring(20,26)); 
@@ -348,20 +334,21 @@ public class GeraIndiceSeqIndexIdUser {
 					arquivoIndice.close();
 					return indice;
 				} else {
-					if (procura < indice)
+					if (procura < valorIndice)
 						fim = meio - 1;
-					else if (procura > indice)
+					else if (procura > valorIndice)
 						inicio = meio + 1;
 				}
 			}
 			
 			arquivoIndice.close();
 		} catch (FileNotFoundException e) {
-			System.err.printf("Arquivo n√£o encontrado: %s.\n", e.getMessage());
+			System.err.printf("Arquivo n„o encontrado: %s.\n", e.getMessage());
 		}
 		
 		return 0;
 	}
+
 	public void ProcuraNoArquivo(long indiceArquivo, String valorProcurado) throws IOException {
 		long i = 0;
 		long indice = 0;
@@ -373,16 +360,11 @@ public class GeraIndiceSeqIndexIdUser {
 
 			System.out.printf("-------------------------------------------------------\n");
 			
-			indice = (indiceArquivo-1) * 397;
+			indice = (indiceArquivo-1) * 394;
 			
 			if ((indiceArquivo == 0) || ((indiceArquivo - 1) == 0)) indice = 1;
 
-			for (i = indice; i <= (indice + 1191); i=i+397) {
-//				dadosArquivo.seek(i);
-//					linha = (String) dadosArquivo.readLine();
-//					if(linha.contains(valorProcurado))
-//						System.out.println(linha);
-				
+			for (i = indice; i <= (indice + 1182); i=i+394) {
 				dadosArquivo.seek(i);
 				dadosArquivo.read(byteVetor, 0, 388);
 				linha = new String(byteVetor);
@@ -394,16 +376,9 @@ public class GeraIndiceSeqIndexIdUser {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			System.err.printf("Arquivo n√£o encontrado: %s.\n", e.getMessage());
+			System.err.printf("Arquivo n„o encontrado: %s.\n", e.getMessage());
 		}
 	}
 
-//	private static String lerString(RandomAccessFile arq, int tam) throws IOException {
-//		char result[] = new char[tam];
-//		for (int i = 0; i < tam; i++) {
-//			result[i] = arq.readChar();
-//		}
-//		return (new String(result).replace('\0', ' '));
-//	}
 
 }
